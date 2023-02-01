@@ -1,4 +1,3 @@
-import json
 import unittest
 
 from pipeline_drugs_pub.src.feature_journal import get_maps_journals_drugs, count_for_journal_most_drugs

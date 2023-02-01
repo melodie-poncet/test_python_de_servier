@@ -3,7 +3,7 @@ import data_pipeline
 import pytest
 
 
-class ConstructAssociationsTest(unittest.TestCase):
+class DataPipelineTest(unittest.TestCase):
     def test_get_clean_date(self):
         scenarios_ok = [
             [{"date": "31/01/2023"}, "2023-01-31"],
@@ -19,11 +19,11 @@ class ConstructAssociationsTest(unittest.TestCase):
         ]
 
         for senario in scenarios_ok:
-            self.assertEqual(construct_associations.get_clean_date(senario[0]), senario[1])
+            self.assertEqual(data_pipeline.get_clean_date(senario[0]), senario[1])
 
         for senario in scenarios_ko:
             with pytest.raises(ValueError):
-                construct_associations.get_clean_date(senario)
+                data_pipeline.get_clean_date(senario)
 
     def test_get_clean_str(self):
         scenarios_ok = [
@@ -41,42 +41,52 @@ class ConstructAssociationsTest(unittest.TestCase):
         ]
 
         for senario in scenarios_ok:
-            self.assertEqual(construct_associations.get_clean_str(senario[0], senario[1]), senario[2])
+            self.assertEqual(data_pipeline.get_clean_str(senario[0], senario[1]), senario[2])
 
         for senario in scenarios_ko:
             with pytest.raises(ValueError):
-                construct_associations.get_clean_str(senario[0], senario[1])
+                data_pipeline.get_clean_str(senario[0], senario[1])
 
     def test_add_association(self):
         asso = []
-        drugs = [
-            {"atccode": 1, "drug": "d1"},
-            {"atccode": 2, "drug": "d2"},
-            {"atccode": 3, "drug": "d3"},
-            {"atccode": 4, "drug": "d4"},
-            {"atccode": 5, "drug": "d5"},
-        ]
+        drugs = {
+            "1": {
+                "drug": "d1"
+            },
+            "2": {
+                "drug": "d2"
+            },
+            "3": {
+                "drug": "d3"
+            },
+            "4": {
+                "drug": "d4"
+            },
+            "5": {
+                "drug": "d5"
+            }
+        }
 
-        construct_associations.add_association(asso, drugs, 1, "a title who contains d1 and D5 and other")
+        data_pipeline.add_association(asso, drugs, "1", "a title who contains d1 and D5 and other")
 
         expected_asso1 = [
-            {"atccode": 1, "pub_id": 1},
-            {"atccode": 5, "pub_id": 1}
+            {"atccode": "1", "pub_id": "1"},
+            {"atccode": "5", "pub_id": "1"}
         ]
 
         self.assertEqual(asso, expected_asso1)
 
-        construct_associations.add_association(asso, drugs, 2, "a title without drugs")
+        data_pipeline.add_association(asso, drugs, "2", "a title without drugs")
 
         self.assertEqual(asso, expected_asso1)
 
-        construct_associations.add_association(asso, drugs, 3, "a title contains d3 and D5")
+        data_pipeline.add_association(asso, drugs, "3", "a title contains d3 and D5")
 
         expected_asso2 = [
-            {"atccode": 1, "pub_id": 1},
-            {"atccode": 5, "pub_id": 1},
-            {"atccode": 3, "pub_id": 3},
-            {"atccode": 5, "pub_id": 3}
+            {"atccode": "1", "pub_id": "1"},
+            {"atccode": "5", "pub_id": "1"},
+            {"atccode": "3", "pub_id": "3"},
+            {"atccode": "5", "pub_id": "3"}
         ]
         self.assertEqual(asso, expected_asso2)
 
@@ -108,7 +118,7 @@ class ConstructAssociationsTest(unittest.TestCase):
         ]
 
         self.assertEqual(
-            construct_associations.content_transform(content, "clinical_trials", "scientific_title"),
+            data_pipeline.content_transform(content, "clinical_trials", "scientific_title"),
             expected_content_formatted
         )
 
