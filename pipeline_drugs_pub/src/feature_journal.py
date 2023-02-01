@@ -54,5 +54,3 @@ def count_for_journal_most_drugs(journals_drugs: Dict) -> List:
             res.append(key)
 
     return res
-
-

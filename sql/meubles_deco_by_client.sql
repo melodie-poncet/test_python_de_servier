@@ -1,4 +1,4 @@
--- Chiffre d'Affaire par client et par type de produit pour l'année 2019
+-- Chiffre d'Affaire par client et par type de produit pour l'année 2019.
 SELECT a.client_id, b.ventes_deco, c.ventes_meuble
 FROM
     (SELECT DISTINCT client_id FROM TRANSACTION) AS a
