@@ -38,7 +38,7 @@ def clean_file_publication(path_file_json: str):
             json_file_handler.write(json.dumps(content_formatted, ensure_ascii=False, indent=2))
     except json.decoder.JSONDecodeError as err:
         LOGGER.warning(f"JSONDecodeError : {err} \n "
-                       f"file ignored : {path_file_json}")
+                       f"file ignored : {path_file_json}\n")
 
 
 def content_transform(content_file: List[Dict], type_content: str, title_field: str) -> List[Dict]:
@@ -69,7 +69,7 @@ def content_transform(content_file: List[Dict], type_content: str, title_field: 
                 "journal": item.get("journal")
             }
             LOGGER.warning(f"ValueError : {err} \n "
-                           f"ignored row : {ignored_row}")
+                           f"ignored row : {ignored_row}\n")
 
     return content_formatted
 
@@ -81,10 +81,13 @@ def get_clean_str(item: Dict, field: str) -> str:
     :param field: the field to treat
     :return: the cleaning field
     """
-    if item.get(field) is None or len(item.get(field).strip()) == 0:
+    if item.get(field) is None:
         raise ValueError(field + " is not valid")
 
     str_striped = item[field].strip()
+
+    if len(str_striped) == 0:
+        raise ValueError(field + " is not valid")
 
     try:
         # In case of character in latin-1
@@ -124,7 +127,7 @@ def get_clean_date(item: Dict) -> str:
         raise ValueError("Unrecognized date format")
 
 
-def add_association(asso: List, drugs: Dict, pub_id: int, title: str):
+def add_association(asso: List, drugs: Dict, pub_id: str, title: str):
     """
     Add all associations find between drugs_list and title
     :param asso: the list of associations
@@ -188,4 +191,4 @@ if __name__ == "__main__":
     )
 
     list_journals = feature_journal.get_journal_with_most_drugs("../data/res/result.json")
-    LOGGER.warning("The journal(s) that mentions the most different drugs are : \n" + "\n".join(list_journals))
+    LOGGER.warning("\nThe journal(s) that mentions the most different drugs are : \n" + "\n".join(list_journals))

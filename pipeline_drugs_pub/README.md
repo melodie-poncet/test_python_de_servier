@@ -73,7 +73,7 @@ J'ai fait le choix de modéliser le résultat sous cette forme :
 * De même, j'ai choisi un seul format de date et suis partie du principe que le format dans les fichiers d'origine était forcément avec le mois entre le jour et l'année.
 * Pour les problèmes d'encodage, je suis partie du fait que les faux code, type `\xc3\x28` qui n'existent pas, seraient supprimés.
 * Je suis parti du principe que les champs `title`, `date` et `journal` devaient forcément être présents sinon la ligne ne serait pas prise en compte.
-* Les erreurs sont uniquement remontées comme warning aujourd'hui mais pourraient faire l'objet d'un enregistrement dans un fichier / une table dans un réel projet pour pouvoir reprendre est résoudre les lignes non-prises en compte.
+* Les erreurs sont uniquement remontées comme warning aujourd'hui mais pourraient faire l'objet d'un enregistrement dans un fichier / une table dans un réel projet pour pouvoir reprendre et résoudre les lignes non-prises en compte.
 * Les fichiers JSON malformés remontent une erreur et ne sont pas traités. J'ai pris la liberté de renommer le fichier pubmed.json qui était malformé en pubmed_malfomed.json et de mettre sa version corrigée pour le traiter dans l'exemple.
 * L'ensemble du programme est lancé aujourd'hui via la fonction `main` dans le fichier `data_pipeline.py`. Bien évidemment dans un projet réel cette fonction n'existerait pas et les différentes fonctions seraient exécutées par déclenchement.
 * J'ai fait le choix pour la partie feature de remonter une liste pour pouvoir traiter les journaux ex aequo.
